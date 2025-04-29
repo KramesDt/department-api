@@ -6,13 +6,14 @@ import { User } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { JwtStrategy } from './jwt.strategy';
+import config from '../configs/config';
 
 @Module({
   imports: [
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: config.JWT_EXPIRES_IN },
     }),
     TypeOrmModule.forFeature([User]),
   ],
