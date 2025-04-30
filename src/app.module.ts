@@ -6,6 +6,7 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { DepartmentModule } from './department/department.module';
 import { ConfigModule } from '@nestjs/config';
+import { SubDepartmentModule } from './sub-department/sub-department.module';
 import config from './configs/config';
 
 @Module({
@@ -29,6 +30,7 @@ import config from './configs/config';
     }),
     AuthModule,
     DepartmentModule,
+    SubDepartmentModule,
   ],
 })
 export class AppModule {}
