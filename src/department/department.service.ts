@@ -21,7 +21,6 @@ export class DepartmentService {
     const department = this.departmentRepository.create({
       name: createDepartmentInput.name,
     });
-
     await this.departmentRepository.save(department);
 
     if (
@@ -34,7 +33,6 @@ export class DepartmentService {
           department,
         });
       });
-
       await this.subDepartmentRepository.save(subDepts);
       department.subDepartments = subDepts;
     } else {
@@ -55,11 +53,9 @@ export class DepartmentService {
       where: { id },
       relations: ['subDepartments'],
     });
-
     if (!department) {
       throw new NotFoundException(`Department with ID ${id} not found`);
     }
-
     return department;
   }
 
@@ -68,10 +64,25 @@ export class DepartmentService {
     updateDepartmentInput: UpdateDepartmentInput,
   ): Promise<Department> {
     const department = await this.findDepartmentById(id);
-
-    department.name = updateDepartmentInput.name;
+    if (updateDepartmentInput.name) {
+      department.name = updateDepartmentInput.name;
+    }
+    if (updateDepartmentInput.subDepartments) {
+      if (department.subDepartments && department.subDepartments.length > 0) {
+        await this.subDepartmentRepository.remove(department.subDepartments);
+      }
+      const newSubDepts = updateDepartmentInput.subDepartments.map(
+        (subDeptInput) => {
+          return this.subDepartmentRepository.create({
+            name: subDeptInput.name,
+            department,
+          });
+        },
+      );
+      await this.subDepartmentRepository.save(newSubDepts);
+      department.subDepartments = newSubDepts;
+    }
     await this.departmentRepository.save(department);
-
     return department;
   }
 
