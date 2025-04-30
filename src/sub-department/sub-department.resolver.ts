@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
 import { SubDepartmentService } from './sub-department.service';
-import { SubDepartment } from './entities/sub-department.entity';
+import { SubDepartment } from '../department/entities/sub-department.entity';
 import { CreateSubDepartmentInput } from './dto/create-sub-department.input';
 import { UpdateSubDepartmentInput } from './dto/update-sub-department.input';
 
@@ -21,13 +21,13 @@ export class SubDepartmentResolver {
     );
   }
 
-  @Query(() => [SubDepartment], { name: 'subDepartments' })
+  @Query(() => [SubDepartment], { name: 'findAllSubDepartments' })
   @UseGuards(GqlAuthGuard)
   findAllSubDepartments(): Promise<SubDepartment[]> {
     return this.subDepartmentService.findAllSubDepartments();
   }
 
-  @Query(() => [SubDepartment], { name: 'subDepartmentsByDepartment' })
+  @Query(() => [SubDepartment], { name: 'findSubDepartmentsByDepartmentId' })
   @UseGuards(GqlAuthGuard)
   findSubDepartmentsByDepartmentId(
     @Args('departmentId', { type: () => Int }) departmentId: number,
@@ -37,7 +37,7 @@ export class SubDepartmentResolver {
     );
   }
 
-  @Query(() => SubDepartment, { name: 'subDepartment' })
+  @Query(() => SubDepartment, { name: 'findSubDepartmentById' })
   @UseGuards(GqlAuthGuard)
   findSubDepartmentById(
     @Args('id', { type: () => Int }) id: number,

@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { IsInt, IsNotEmpty, MinLength } from 'class-validator';
+import { IsInt, IsNotEmpty, MinLength, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateSubDepartmentInput {
@@ -10,8 +10,8 @@ export class CreateSubDepartmentInput {
   })
   name: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true }) // Mark as nullable in GraphQL
   @IsInt()
-  @IsNotEmpty()
-  departmentId: number;
+  @IsOptional()
+  departmentId?: number;
 }

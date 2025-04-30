@@ -1,7 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreateSubDepartmentInput } from './create-sub-department.input';
+import { CreateSubDepartmentInput } from '../../sub-department/dto/create-sub-department.input';
 
 @InputType()
 export class CreateDepartmentInput {

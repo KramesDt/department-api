@@ -8,6 +8,7 @@ input CreateDepartmentInput {
 }
 
 input CreateSubDepartmentInput {
+  departmentId: Int
   name: String!
 }
 
@@ -29,17 +30,25 @@ type LoginResponse {
 
 type Mutation {
   createDepartment(input: CreateDepartmentInput!): Department!
+  createSubDepartment(createSubDepartmentInput: CreateSubDepartmentInput!): SubDepartment!
   deleteDepartment(id: Int!): Boolean!
+  deleteSubDepartment(id: Int!): Boolean!
   login(input: LoginInput!): LoginResponse!
   updateDepartment(id: Int!, input: UpdateDepartmentInput!): Department!
+  updateSubDepartment(updateSubDepartmentInput: UpdateSubDepartmentInput!): SubDepartment!
 }
 
 type Query {
   department(id: Int!): Department!
   departments: [Department!]!
+  findAllSubDepartments: [SubDepartment!]!
+  findSubDepartmentById(id: Int!): SubDepartment!
+  findSubDepartmentsByDepartmentId(departmentId: Int!): [SubDepartment!]!
 }
 
 type SubDepartment {
+  department: Department
+  departmentId: Int!
   id: ID!
   name: String!
 }
@@ -51,6 +60,12 @@ input SubDepartmentUpdateInput {
 input UpdateDepartmentInput {
   name: String
   subDepartments: [SubDepartmentUpdateInput!]
+}
+
+input UpdateSubDepartmentInput {
+  departmentId: Int
+  id: Int!
+  name: String
 }
 
 type User {
